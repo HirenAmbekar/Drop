@@ -83,7 +83,7 @@
         android:onClick="startMainActivity"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="Continue as Guest >"
+        android:text="Register with Drop >"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
