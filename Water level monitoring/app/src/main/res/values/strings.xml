@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Water level monitoring</string>
+    <string name="create_new_account">Create New Account</string>
+</resources>
