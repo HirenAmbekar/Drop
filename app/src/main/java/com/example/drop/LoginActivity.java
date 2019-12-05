@@ -175,4 +175,8 @@ public class LoginActivity extends AppCompatActivity {
 
         backPressedTime = System.currentTimeMillis();
     }
+
+    public void fbToast(View view) {
+        Toast.makeText(getBaseContext(), "App not yet set up on GooglePlay, Feature will be available in future releases", Toast.LENGTH_LONG).show();
+    }
 }

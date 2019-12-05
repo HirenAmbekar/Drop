@@ -8,7 +8,7 @@
     tools:context=".DropUserLoginActivity">
 
     <EditText
-        android:id="@+id/emailText"
+        android:id="@+id/emailTextHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
@@ -44,7 +44,7 @@
         android:password="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+        app:layout_constraintTop_toBottomOf="@+id/emailTextHeader" />
 
     <Button
         android:id="@+id/loginBtn"

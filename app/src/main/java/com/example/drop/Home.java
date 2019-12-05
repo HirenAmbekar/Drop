@@ -1,11 +1,17 @@
 package com.example.drop;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.provider.MediaStore;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,6 +22,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -24,7 +31,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class Home extends AppCompatActivity {
 
@@ -34,6 +46,7 @@ public class Home extends AppCompatActivity {
     Button button;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseUser user;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -69,8 +82,26 @@ public class Home extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        button = (Button) findViewById(R.id.logOutbtn);
+        button = findViewById(R.id.logOutbtn);
         mAuth = FirebaseAuth.getInstance();
+
+
+        //User details
+        View hView =  navigationView.getHeaderView(0);
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri profilePic = user.getPhotoUrl();
+
+            TextView emailText = hView.findViewById(R.id.emailTextHeader);
+            TextView displayText = hView.findViewById(R.id.displayNameHeader);
+            ImageView profilePicImage = hView.findViewById(R.id.profilePicHeader);
+
+            emailText.setText(email);
+            displayText.setText(name);
+            Glide.with(getApplicationContext()).load(profilePic).into(profilePicImage);
+        }
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
