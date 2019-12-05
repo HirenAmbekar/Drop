@@ -41,11 +41,13 @@ public class DropRegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_drop_registration);
-        getSupportActionBar().hide();
 
         mFullName   = findViewById(R.id.fullName);
         mEmail      = findViewById(R.id.email);
@@ -56,6 +58,7 @@ public class DropRegistrationActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
 
 //        if(fAuth.getCurrentUser() != null){
 //            startActivity(new Intent(getApplicationContext(),Home.class));
@@ -130,6 +133,14 @@ public class DropRegistrationActivity extends AppCompatActivity {
     }
 
     public void startLoginActivity(View view) {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        DropRegistrationActivity.this.finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         DropRegistrationActivity.this.finish();

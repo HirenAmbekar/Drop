@@ -24,8 +24,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class Home extends AppCompatActivity {
+
+    private long backPressedTime;
+    private Toast backToast;
 
     Button button;
     FirebaseAuth mAuth;
@@ -73,6 +77,7 @@ public class Home extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
                     startActivity(new Intent(Home.this, LoginActivity.class));
+                    Home.this.finish();
                 }
             }
         };
@@ -97,5 +102,21 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            Home.this.finishAffinity();
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Press again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+
+        backPressedTime = System.currentTimeMillis();
     }
 }
