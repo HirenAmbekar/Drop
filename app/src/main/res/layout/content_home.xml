@@ -18,20 +18,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
 
-    <Button
-        android:id="@+id/logOutbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginLeft="165dp"
-        android:layout_marginTop="271dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginRight="158dp"
-        android:layout_marginBottom="284dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment"
-        app:layout_constraintEnd_toEndOf="@+id/nav_host_fragment"
-        app:layout_constraintStart_toStartOf="@+id/nav_host_fragment"
-        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

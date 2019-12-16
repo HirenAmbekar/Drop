@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -30,20 +32,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class Home extends AppCompatActivity {
 
     private long backPressedTime;
     private Toast backToast;
 
-    Button button;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
     FirebaseUser user;
@@ -62,13 +59,16 @@ public class Home extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(Home.this, AddTankToDBActivity.class));
             }
         });
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -82,7 +82,6 @@ public class Home extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        button = findViewById(R.id.logOutbtn);
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -100,7 +99,7 @@ public class Home extends AppCompatActivity {
 
             emailText.setText(email);
             displayText.setText(name);
-            Glide.with(getApplicationContext()).load(profilePic).into(profilePicImage);
+            Glide.with(getApplicationContext()).load(profilePic).apply(RequestOptions.circleCropTransform()).into(profilePicImage);
         }
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -113,12 +112,6 @@ public class Home extends AppCompatActivity {
             }
         };
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-            }
-        });
     }
 
     @Override
@@ -149,5 +142,23 @@ public class Home extends AppCompatActivity {
         }
 
         backPressedTime = System.currentTimeMillis();
+    }
+
+    public void signOut() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.logOut :
+                signOut();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

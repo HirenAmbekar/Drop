@@ -1,7 +1,9 @@
 package com.example.drop;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,6 +26,9 @@ public class SplashScreenActivity extends AppCompatActivity {
     Animation fadein;
     Animation fadein2;
 
+    SharedPreferences sharedPreferences;
+    boolean firstTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         | View.SYSTEM_UI_FLAG_FULLSCREEN
         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_splash_screen);
+
+        sharedPreferences = getSharedPreferences("myPreference", MODE_PRIVATE);
+        firstTime = sharedPreferences.getBoolean("firstTime", true);
 
         lightwave = (ImageView) findViewById(R.id.lightwave);
         darkwave = (ImageView) findViewById(R.id.darkwave);
@@ -51,6 +59,29 @@ public class SplashScreenActivity extends AppCompatActivity {
         droplogo.setAnimation(fadein);
         droptext.setAnimation(fadein);
         startedbutton.setAnimation(fadein2);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (firstTime) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    firstTime = false;
+                    editor.putBoolean("firstTime", firstTime);
+                    editor.apply();
+
+                    Intent intent = new Intent(SplashScreenActivity.this, WelcomeActivity1.class);
+                    startActivity(intent);
+                    SplashScreenActivity.this.finish();
+                }
+                else {
+                    Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    SplashScreenActivity.this.finish();
+                }
+            }
+        },10000);
+
 
 
     }

@@ -12,7 +12,11 @@
         android:roundIcon="@drawable/drop"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DropRegistrationActivity"></activity>
+        <activity android:name=".AddTankToDBActivity"
+            android:theme="@style/AppTheme.PopUp">
+        </activity>
+        <activity android:name=".WelcomeActivity1" />
+        <activity android:name=".DropRegistrationActivity" />
         <activity android:name=".DropUserLoginActivity" />
         <activity
             android:name=".Home"
